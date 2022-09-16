@@ -1,11 +1,5 @@
-import { v4 as uuidv4 } from "uuid";
-/*
-Justificativa para utilizar uma lib para gerar o UUID aqui na entidade:
-  - Há um limite de camadas de arquitetura entre framework/infra -> Abstracoes -> Web e Casos de uso -> Entidades.
-  - Sendo as entidades o caso mais purista e o framework/infra a camada mais externa(desenho clean arch).
-  - Em teoria não podemos fazer a entidade depender de alguma lib, framework ou tecnologia.
-  - Mas para evitar um custo muito maior(desenvolvimento, dinheiro, etc), é justificável romper esse limite. 
-*/
+// Objeto Valor
+import UniqueEntityId from "../../../@seedwork/domain/unique-entity-id.vo";
 
 export type CategoryProperties = {
   name: string;
@@ -14,11 +8,12 @@ export type CategoryProperties = {
   created_at?: Date;
 };
 
+// Entidade - conjunto de atributos e objetos de valores com uma identidade e comportamentos(Category)
 export class Category {
-  public readonly id: string;
+  public readonly id: UniqueEntityId;
 
-  constructor(public props: CategoryProperties, id?: string) {
-    this.id = id || uuidv4();
+  constructor(public props: CategoryProperties, id?: UniqueEntityId) {
+    this.id = id || new UniqueEntityId();
     this.description = this.props.description; // Call the method setDescription
     this.is_active = this.props.is_active ?? true; // Call the method set setIsActive
     this.props.created_at = this.props.created_at ?? new Date();
