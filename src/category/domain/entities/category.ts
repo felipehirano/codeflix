@@ -1,4 +1,5 @@
 // Objeto Valor
+import Entity from "@seedwork/domain/entity/entity";
 import UniqueEntityId from "../../../@seedwork/domain/value-objects/unique-entity-id.vo";
 
 export type CategoryProperties = {
@@ -9,11 +10,9 @@ export type CategoryProperties = {
 };
 
 // Entidade - conjunto de atributos e objetos de valores com uma identidade e comportamentos(Category)
-export class Category {
-  public readonly id: UniqueEntityId;
-
+export class Category extends Entity<CategoryProperties> {
   constructor(public props: CategoryProperties, id?: UniqueEntityId) {
-    this.id = id || new UniqueEntityId();
+    super(props, id);
     this.description = this.props.description; // Call the method setDescription
     this.is_active = this.props.is_active ?? true; // Call the method set setIsActive
     this.props.created_at = this.props.created_at ?? new Date();

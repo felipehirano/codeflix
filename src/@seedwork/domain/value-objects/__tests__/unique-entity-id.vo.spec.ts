@@ -1,5 +1,5 @@
-import InvalidUuidError from "../../errors/invalid-uuid.error";
-import UniqueEntityId from "./unique-entity-id.vo";
+import InvalidUuidError from "../../../errors/invalid-uuid.error";
+import UniqueEntityId from "../unique-entity-id.vo";
 import { validate as uuidValidate } from "uuid";
 
 function spyValidateMethod() {
@@ -17,13 +17,13 @@ describe("UniqueEntityId Unit Tests", () => {
   it("should accept a uuid passed in constructor", () => {
     const uuid = "b55637a9-499d-4c4e-9f8e-32640d9321f3";
     const vo = new UniqueEntityId(uuid);
-    expect(vo.id).toBe(uuid);
+    expect(vo.getValue()).toBe(uuid);
     expect(validateSpy).toHaveBeenCalled();
   });
 
   it("should accept a uuid passed in constructor", () => {
     const vo = new UniqueEntityId();
-    expect(uuidValidate(vo.id)).toBeTruthy();
+    expect(uuidValidate(vo.getValue())).toBeTruthy();
     expect(validateSpy).toHaveBeenCalled();
   });
 });
