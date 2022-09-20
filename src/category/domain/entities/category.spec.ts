@@ -133,4 +133,41 @@ describe("Category unity tests", () => {
 
     expect(category.created_at).toBe(created_at);
   });
+
+  test("update category", () => {
+    const category = new Category({
+      name: "Movie",
+      description: "This is the Movie"
+    });
+
+    category.update("Film", "This is the Movie");
+    expect(category.name).toBe("Film");
+
+    category.update("Movie", "This is the film");
+    expect(category.description).toBe("This is the film");
+
+    category.update("Film", "This is the film");
+    expect(category).toMatchObject({
+      name: "Film",
+      description: "This is the film"
+    })
+  });
+
+  test("activate category", () => {
+    const category = new Category({
+      name: "Movie"
+    });
+    category.activate();
+    expect(category.is_active).toBeTruthy();
+  });
+
+  test("deactivate category", () => {
+    const category = new Category({
+      name: "Movie"
+    });
+
+    category.deactivate();
+    expect(category.is_active).not.toBeTruthy();
+
+  });
 });

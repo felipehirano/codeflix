@@ -1,5 +1,5 @@
 // Objeto Valor
-import Entity from "@seedwork/domain/entity/entity";
+import Entity from "../../../@seedwork/domain/entity/entity";
 import UniqueEntityId from "../../../@seedwork/domain/value-objects/unique-entity-id.vo";
 
 export type CategoryProperties = {
@@ -40,5 +40,18 @@ export class Category extends Entity<CategoryProperties> {
 
   get created_at(): any {
     return this.props.created_at;
+  }
+
+  update(name: string, description: string) {
+    this.props.name = name;
+    this.props.description = description;
+  }
+
+  activate() {
+    this.props.is_active = true;
+  }
+
+  deactivate() {
+    this.props.is_active = false;
   }
 }
