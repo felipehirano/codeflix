@@ -68,13 +68,16 @@ describe("Category unity tests", () => {
     data.forEach((item) => {
       const category = new Category(item.props, item.id);
       expect(category.id).not.toBeNull();
-      expect(category.id).toBeInstanceOf(UniqueEntityId);
+      expect(category.uniqueEntityId).toBeInstanceOf(UniqueEntityId);
     });
   });
 
-  test("getter of name prop", () => {
+  test("getter and setter of name prop", () => {
     const category = new Category({ name: "Movie" });
     expect(category.name).toBe("Movie");
+
+    category["name"] = "other name";
+    expect(category.name).toBe("other name");
   });
 
   test("getter and setter of description prop", () => {

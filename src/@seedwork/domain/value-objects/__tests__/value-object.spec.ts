@@ -41,8 +41,6 @@ describe('ValueObject Unit Tests', () => {
 
         const vo = new StubValueObject(obj);
 
-        console.log(vo);
-
         expect(() => {
             (vo as any)._value.prop1 = "test"
         }).toThrow(
