@@ -32,7 +32,7 @@ export class Category extends Entity<CategoryProperties> {
   // Por não poder utilizar o this antes do super, utilizei o static para poder fazer a validacao antes de chamar o super
   // Esse método será compartilhado entre todas as instâncias dessa classe, e para acessá-la, deve se utilizar o nome da classe ao invés do this.
   static validate(props: Omit<CategoryProperties, 'created_at'>) {
-    ValidatorRules.values(props.name, 'name').required().string();
+    ValidatorRules.values(props.name, 'name').required().string().maxLength(255);
     ValidatorRules.values(props.description, 'description').string();
     ValidatorRules.values(props.is_active, 'is_active').boolean();
   }

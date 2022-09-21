@@ -2,11 +2,18 @@ import { Category, CategoryProperties } from "./category";
 import { omit } from "lodash";
 import UniqueEntityId from "../../../@seedwork/domain/value-objects/unique-entity-id.vo";
 
+// Category.validate = jest.fn(); -> Criando um mock para testar o método validate.
+
 describe("Category unity tests", () => {
+  // A cada execucao de um teste, o beforeEach é chamado;
+  beforeEach(() => {
+    Category.validate = jest.fn();
+  });
+
   test("Constructor of category", () => {
     let category = new Category({ name: "Movie" });
-
     let props = omit(category.props, "created_at");
+    expect(Category.validate).toHaveBeenCalled();
     expect(props).toStrictEqual({
       name: "Movie",
       description: null,
@@ -144,12 +151,15 @@ describe("Category unity tests", () => {
     });
 
     category.update("Film", "This is the Movie");
+    expect(Category.validate).toHaveBeenCalledTimes(2);
     expect(category.name).toBe("Film");
 
     category.update("Movie", "This is the film");
     expect(category.description).toBe("This is the film");
+    expect(Category.validate).toHaveBeenCalledTimes(3);
 
     category.update("Film", "This is the film");
+    expect(Category.validate).toHaveBeenCalledTimes(4);
     expect(category).toMatchObject({
       name: "Film",
       description: "This is the film"
