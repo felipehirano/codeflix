@@ -1,4 +1,5 @@
 // Objeto Valor
+import ValidatorRules from "../../../@seedwork/validators/validator-rules";
 import Entity from "../../../@seedwork/domain/entity/entity";
 import UniqueEntityId from "../../../@seedwork/domain/value-objects/unique-entity-id.vo";
 
@@ -12,10 +13,36 @@ export type CategoryProperties = {
 // Entidade - conjunto de atributos e objetos de valores com uma identidade e comportamentos(Category)
 export class Category extends Entity<CategoryProperties> {
   constructor(public props: CategoryProperties, id?: UniqueEntityId) {
+   Category.validate(props);
     super(props, id);
     this.description = this.props.description; // Call the method setDescription
-    this.is_active = this.props.is_active ?? true; // Call the method set setIsActive
+    this.is_active = this.props.is_active; // Call the method set setIsActive
     this.props.created_at = this.props.created_at ?? new Date();
+  }
+
+  update(name: string, description: string) {
+    Category.validate({
+      name,
+      description
+    });
+    this.name = name;
+    this.description = description;
+  }
+
+  // Por não poder utilizar o this antes do super, utilizei o static para poder fazer a validacao antes de chamar o super
+  // Esse método será compartilhado entre todas as instâncias dessa classe, e para acessá-la, deve se utilizar o nome da classe ao invés do this.
+  static validate(props: Omit<CategoryProperties, 'created_at'>) {
+    ValidatorRules.values(props.name, 'name').required().string();
+    ValidatorRules.values(props.description, 'description').string();
+    ValidatorRules.values(props.is_active, 'is_active').boolean();
+  }
+
+  activate() {
+    this.props.is_active = true;
+  }
+
+  deactivate() {
+    this.props.is_active = false;
   }
 
   get name(): string {
@@ -44,18 +71,5 @@ export class Category extends Entity<CategoryProperties> {
 
   get created_at(): any {
     return this.props.created_at;
-  }
-
-  update(name: string, description: string) {
-    this.name = name;
-    this.description = description;
-  }
-
-  activate() {
-    this.props.is_active = true;
-  }
-
-  deactivate() {
-    this.props.is_active = false;
   }
 }
