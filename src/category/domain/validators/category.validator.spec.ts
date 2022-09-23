@@ -6,32 +6,64 @@ describe('CategoryValidator Tests', () => {
         validator = CategoryValidatorFactory.create();
     });
     test('invalidation cases for name field', () => {
-        let isValid = validator.validate(null);
-        expect(isValid).toBeFalsy();
-        expect(validator.errors['name']).toStrictEqual([
-            'name should not be empty',
-            'name must be a string',
-            'name must be shorter than or equal to 255 characters'
-        ])
+        /**
+         * Para não precisar utilizar o @ts-ignore(pois o ts não estava reconhecendo o containsErrorMessages)
+         * Criei um arquivo de definicao de tipos chamado jest.d.ts na raiz do projeto
+         * Isso ocorre porque o expect do jest não está configurado para reconhecer os Matchers que criamos
+         */
+        expect({validator, data: null}).containsErrorMessages({
+            name:[
+                'name should not be empty',
+                'name must be a string',
+                'name must be shorter than or equal to 255 characters'
+            ]
+        })
+        expect({validator, data: ''}).containsErrorMessages({
+            name:[
+                'name should not be empty',
+                'name must be a string',
+                'name must be shorter than or equal to 255 characters'
+            ]
+        })
+        expect({validator, data: {name: 5 as any}}).containsErrorMessages({
+            name:[
+                'name must be a string',
+                'name must be shorter than or equal to 255 characters'   
+            ]
+        })
+        expect({validator, data: {name: "t".repeat(256)}}).containsErrorMessages({
+            name:[
+                'name must be shorter than or equal to 255 characters'   
+            ]
+        })        
+    });
 
-        isValid = validator.validate({name: ''});
-        expect(isValid).toBeFalsy();
-        expect(validator.errors['name']).toStrictEqual([
-            'name should not be empty',
-        ])
+    test('invalidation cases for description field', () => {
+        expect({validator, data: {description: 5}}).containsErrorMessages({
+            description:[
+                'description must be a string',
+            ]
+        })
+    });
 
-        isValid = validator.validate({name: 5 as any});
-        expect(isValid).toBeFalsy();
-        expect(validator.errors['name']).toStrictEqual([
-            'name must be a string',
-            'name must be shorter than or equal to 255 characters'
-        ])
+    test('invalidation cases for is_active field', () => {
+        expect({validator, data: {is_active: 5}}).containsErrorMessages({
+            is_active:[
+                'is_active must be a boolean value',
+            ]
+        })
 
-        isValid = validator.validate({name: "t".repeat(256)});
-        expect(isValid).toBeFalsy();
-        expect(validator.errors['name']).toStrictEqual([
-            'name must be shorter than or equal to 255 characters'
-        ])
+        expect({validator, data: {is_active: 0}}).containsErrorMessages({
+            is_active:[
+                'is_active must be a boolean value',
+            ]
+        })
+
+        expect({validator, data: {is_active: 1}}).containsErrorMessages({
+            is_active:[
+                'is_active must be a boolean value',
+            ]
+        })
     });
 
     test('valid cases for fields', () => {
