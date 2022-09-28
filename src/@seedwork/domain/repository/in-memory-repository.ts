@@ -1,7 +1,7 @@
 import Entity from "../entity/entity";
 import NotFoundError from "../errors/not-found.error";
 import UniqueEntityId from "../value-objects/unique-entity-id.vo";
-import { RepositoryInterface, SearchableRepositoryInterface } from "./repository-contracts";
+import { RepositoryInterface, SearchableRepositoryInterface, SearchParams, SearchResult } from "./repository-contracts";
 
 export abstract class InMemoryRepository<E> implements RepositoryInterface<E> {
     items: E[] = [];
@@ -39,8 +39,48 @@ export abstract class InMemoryRepository<E> implements RepositoryInterface<E> {
 }
 
 export abstract class InMemorySearchableRepositoryInterface<E extends Entity> extends InMemoryRepository<E>
-    implements SearchableRepositoryInterface<E, any, any>{
-    search(props: any): Promise<any> {
-        throw new Error("Method not implemented.");
+    implements SearchableRepositoryInterface<E>{
+    sortableFields: string[] = [];
+    async search(props: SearchParams): Promise<SearchResult<E>> {
+        const itemsFiltered = await this.applyFilter(this.items, props.filter);
+        const itemSorted = await this.applySort(itemsFiltered, props.sort, props.sort_dir);
+        const itemPaginated = await this.applyPaginate(itemSorted, props.page, props.per_page);
+
+        // return itemPaginated;
+
+        return new SearchResult({
+            items:itemPaginated,
+            total: itemsFiltered.length,
+            current_page: props.page,
+            per_page: props.per_page,
+            sort: props.sort,
+            sort_dir: props.sort_dir,
+            filter: props.filter
+        });
+    }
+
+    protected abstract applyFilter(items: E[], filter: string | null): Promise<E[]>;
+    protected async applySort(items: E[], sort: string | null, sort_dir: string | null): Promise<E[]>{
+        if(!sort || !this.sortableFields.includes(sort)){
+            return items;
+        }
+
+        // Gerando um novo array com spread porque o sort altera o array que está sendo passado 
+        return [...items].sort((a,b) => {
+            if(a.props[sort] < b.props[sort]){
+                return sort_dir === "asc" ? -1 : 1;
+            }
+
+            if(a.props[sort] > b.props[sort]){
+                return sort_dir === "asc" ? 1 : -1;
+            }
+
+            return 0;
+        }) 
+    }
+    protected async applyPaginate(items: E[], page: SearchParams['page'], per_page: SearchParams['per_page']): Promise<E[]>{
+        const start = (page - 1) * per_page
+        const limit = start + per_page
+        return items.slice(start, limit)
     }
 }
