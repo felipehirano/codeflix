@@ -60,7 +60,7 @@ export abstract class InMemorySearchableRepositoryInterface<E extends Entity> ex
     }
 
     protected abstract applyFilter(items: E[], filter: string | null): Promise<E[]>;
-    protected async applySort(items: E[], sort: string | null, sort_dir: string | null): Promise<E[]>{
+    public async applySort(items: E[], sort: string | null, sort_dir: string | null): Promise<E[]>{
         if(!sort || !this.sortableFields.includes(sort)){
             return items;
         }
