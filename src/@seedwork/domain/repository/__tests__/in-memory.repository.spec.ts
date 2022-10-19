@@ -53,7 +53,6 @@ describe('InMemoryRepository Unit Tests', () => {
 
     it('should throws error on update when entity not exist', async () => {
         const entity = new StubEntity({name: "name value", price: 5})
-        await repository.insert(entity);
 
         expect(repository.update(entity)).rejects.toThrow(
             new NotFoundError(`Entity not found using . ${entity.id}`)
