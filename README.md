@@ -61,3 +61,11 @@ This a project by fullcycle to build a backend using typescript and following th
 ```
  npm install @swc/core @swc/jest --save-dev
 ```
+
+# Coverage setup
+
+- Enable coverageDirectory prop in jest.config.ts and set a folder "__coverage" and add this folder in .gitignore.
+- If you want to generate a report, enable the prop coverageReporters with html and json. 
+- If you want a block in the CI/CD enable the prop coverageThreshold with the minium value of percentage.
+- Run ``` npm run test -- --coverage ``` and than you can see the coverage in the terminal.
+- Add the script "test:cov" in the package.json with the value ``` npm run test -- --coverage ``` to create a comand of coverage shortcut.
