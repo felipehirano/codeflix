@@ -68,4 +68,9 @@ This a project by fullcycle to build a backend using typescript and following th
 - If you want to generate a report, enable the prop coverageReporters with html and json. 
 - If you want a block in the CI/CD enable the prop coverageThreshold with the minium value of percentage.
 - Run ``` npm run test -- --coverage ``` and than you can see the coverage in the terminal.
-- Add the script "test:cov" in the package.json with the value ``` npm run test -- --coverage ``` to create a comand of coverage shortcut.
+- Add the script "test:cov" in the package.json with the value ``` npm run test -- --coverage ``` to create a shortcut omand of coverage.
+
+# Check for typescript errors
+
+- Run the command ``` npm run tsc -- --noEmit ``` to check if exists typescript errors in the application. 
+- Add the the script "test:cov" in the package.json with the value ``` npm run tsc -- --noEmit ``` to create a shortcut comand of errors in typescript.
