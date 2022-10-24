@@ -1,6 +1,6 @@
 import { Category, CategoryProperties } from "./category";
 import { omit } from "lodash";
-import UniqueEntityId from "../../../@seedwork/domain/value-objects/unique-entity-id.vo";
+import UniqueEntityId from "#seedwork/domain/value-objects/unique-entity-id.vo";
 
 // Category.validate = jest.fn(); -> Criando um mock para testar o método validate.
 
