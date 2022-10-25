@@ -1,6 +1,6 @@
 import { deepFreeze } from "../utils/object";
 
-export default abstract class ValueObject<Value = any> {
+export abstract class ValueObject<Value = any> {
     // Utilizando o readonly e o Object.freeze, tornamos esse VO como imutável, que é como ele deve ser.
 
     protected readonly _value: Value;
@@ -27,3 +27,5 @@ export default abstract class ValueObject<Value = any> {
         return valueStr === "[object Object]" ? JSON.stringify(this._value) : valueStr; 
     }
 }
+
+export default ValueObject;

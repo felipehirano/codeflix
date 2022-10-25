@@ -3,22 +3,13 @@
   "version": "0.0.1",
   "description": "",
   "main": "index.js",
-  "dependencies": {
-    "class-validator": "^0.13.2",
-    "create-ts-index": "^1.14.0",
-    "jest": "^29.0.3",
-    "lodash": "^4.17.21",
-    "ttypescript": "^1.5.13",
-    "typescript-transform-paths": "^3.4.3",
-    "uuid": "^9.0.0"
-  },
-  "devDependencies": {},
   "workspaces": [
     "./src/@core",
     "./src/nestjs"
   ],
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "prestart:dev": "npm run build -w codeflix-back",
+    "start:dev": "npm run build:w -w codeflix-back & npm run start:dev -w nestjs"
   },
   "repository": {
     "type": "git",

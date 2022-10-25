@@ -3,6 +3,7 @@ FROM node:14.17.0-slim
 RUN mkdir -p /usr/share/man/man1 && \
     echo 'deb http://ftp.debian.org/debian stretch-backports main' | tee /etc/apt/sources.list.d/stretch-backports.list && \
     apt update && apt install -y \
+    procps \
     git \
     ca-certificates \
     openjdk-11-jre \
@@ -33,4 +34,4 @@ RUN echo '[[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh' >> ~/.zshrc && \
     echo 'HISTFILE=/home/node/zsh/.zsh_history' >> ~/.zshrc
 
 # Comando tail -f /dev/null para segurar o container rodando
-CMD ["sh", "-c", "npm install && tail -f /dev/null"]
+CMD ["tail", "-f", "/dev/null"]

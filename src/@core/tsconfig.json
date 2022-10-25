@@ -1,18 +1,10 @@
 {
+  "extends": "../../tsconfig.base.json",
   "compilerOptions": {
-    "incremental": true, 
-    "target": "es2017",
-    "experimentalDecorators": true,                   
-    "module": "commonjs",
-    "baseUrl": "./src",
-    "esModuleInterop": true,
-    "forceConsistentCasingInFileNames": true,
-    "strict": true ,
-    "strictNullChecks": false,
-    "skipLibCheck": true,
     /*Criando alias para o path. Necessário adicionar também no arquivo .swcrc */
     /*Adicionar no package.json a propriedade imports, para quando ocorrer a compilacao,
     seja gerado os imports corretamente na pasta dist*/
+    "baseUrl": "./src",
     "paths": {
       "#seedwork/*": [
         "./@seedwork/*"
@@ -23,7 +15,6 @@
     },
     /*Rode o comando npm run tsc -- -b para buildar o projeto e jogar na pasta/dist */
     "outDir": "./dist",
-    "declaration": true
   },
-  "include": ["src/"]
+  "include": ["./src"]
 }

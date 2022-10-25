@@ -74,3 +74,9 @@ This a project by fullcycle to build a backend using typescript and following th
 
 - Run the command ``` npm run tsc -- --noEmit ``` to check if exists typescript errors in the application. 
 - Add the the script "test:cov" in the package.json with the value ``` npm run tsc -- --noEmit ``` to create a shortcut comand of errors in typescript.
+
+# Using workspaces
+
+- To install one package from root, use ```npm install PACKAGE -w NAME_WORKSPACE```
+- To run one package from root, use ```npm run COMMAND -w NAME_WORKSPACE```
+- If you wanna run one command from more than one project, run ```npm run test --workspaces```
