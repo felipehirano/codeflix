@@ -3,7 +3,7 @@ import {InMemorySearchableRepositoryInterface} from "../../../@seedwork/domain/r
 import { Category } from "../../domain/entities/category";
 import CategoryRepository from "#category/domain/repository/category-repository";
 
-export default class CategoryInMemoryRepository 
+export class CategoryInMemoryRepository 
     extends InMemorySearchableRepositoryInterface<Category> 
     implements CategoryRepository.Repository {
     
@@ -28,3 +28,5 @@ export default class CategoryInMemoryRepository
         return !sort ? super.applySort(items, "created_at", "desc") : super.applySort(items, sort, sort_dir)
     }
 }
+
+export default CategoryInMemoryRepository;

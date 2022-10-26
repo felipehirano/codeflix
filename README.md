@@ -80,3 +80,7 @@ This a project by fullcycle to build a backend using typescript and following th
 - To install one package from root, use ```npm install PACKAGE -w NAME_WORKSPACE```
 - To run one package from root, use ```npm run COMMAND -w NAME_WORKSPACE```
 - If you wanna run one command from more than one project, run ```npm run test --workspaces```
+
+# Using nestjs
+
+- Inside project nest run the command ```nest g resource``` to create resource folder that you want work.  
