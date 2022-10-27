@@ -1,7 +1,7 @@
 import { Module } from '@nestjs/common';
 import { CategoriesService } from './categories.service';
 import { CategoriesController } from './categories.controller';
-import { CreateCategoryUseCase, ListCategoriesUseCase } from 'codeflix-back/category/application';
+import { CreateCategoryUseCase, DeleteCategoryUseCase, GetCategoryUseCase, ListCategoriesUseCase, UpdateCategoryUseCase } from 'codeflix-back/category/application';
 import { CategoryInMemoryRepository } from 'codeflix-back/category/infra';
 import CategoryRepository from 'codeflix-back/dist/category/domain/repository/category-repository';
 
@@ -15,16 +15,41 @@ import CategoryRepository from 'codeflix-back/dist/category/domain/repository/ca
   providers: [
     CategoriesService,
     {
-      // Caso deseje trocar o repositorio, basta alterar aqui.
       provide: 'CategoryInMemoryRepository',
+      // Caso deseje trocar o repositorio, basta alterar aqui no useClass.
       useClass:  CategoryInMemoryRepository,
     },
     {
      provide: CreateCategoryUseCase.UseCase,
+     /**
+      * Vai receber como parâmetro as dependências do constructor do caso de uso
+      * que é passada via propriedade inject. No caso é o CategoryInMemoryRepository.
+     */
      useFactory: (categoryRepo: CategoryRepository.Repository) => {
       return new CreateCategoryUseCase.UseCase(categoryRepo);
      },
      inject: ['CategoryInMemoryRepository']
+    },
+    {
+      provide: UpdateCategoryUseCase.UseCase,
+      useFactory: (categoryRepo: CategoryRepository.Repository) => {
+       return new UpdateCategoryUseCase.UseCase(categoryRepo);
+      },
+      inject: ['CategoryInMemoryRepository']
+    },
+    {
+      provide: DeleteCategoryUseCase.UseCase,
+      useFactory: (categoryRepo: CategoryRepository.Repository) => {
+       return new DeleteCategoryUseCase.UseCase(categoryRepo);
+      },
+      inject: ['CategoryInMemoryRepository']
+    },
+    {
+      provide: GetCategoryUseCase.UseCase,
+      useFactory: (categoryRepo: CategoryRepository.Repository) => {
+       return new GetCategoryUseCase.UseCase(categoryRepo);
+      },
+      inject: ['CategoryInMemoryRepository']
     },
     {
       provide: ListCategoriesUseCase.UseCase,
@@ -32,7 +57,7 @@ import CategoryRepository from 'codeflix-back/dist/category/domain/repository/ca
        return new ListCategoriesUseCase.UseCase(categoryRepo);
       },
       inject: ['CategoryInMemoryRepository']
-     }
+    }
   ]
 })
 export class CategoriesModule {}
