@@ -9,7 +9,8 @@
   ],
   "scripts": {
     "prestart:dev": "npm run build -w codeflix-back",
-    "start:dev": "npm run build:w -w codeflix-back & npm run start:dev -w nestjs"
+    "start:dev": "npm run build:w -w codeflix-back & npm run start:dev -w nestjs",
+    "test": "jest"
   },
   "repository": {
     "type": "git",
