@@ -1,4 +1,4 @@
-import CategoryInMemoryRepository from "../../../infra/repository/category-in-memory.repository";
+import CategoryInMemoryRepository from "../../../infra/db/in-memory/category-in-memory.repository";
 import NotFoundError from "../../../../@seedwork/domain/errors/not-found.error";
 import UpdateCategoryUseCase from "../update-category.use-case";
 import { Category } from "../../../../category/domain/entities/category";

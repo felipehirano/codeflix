@@ -24,10 +24,10 @@ describe('InMemoryRepository Unit Tests', () => {
     });
 
     it('should throws errors when entity not found', async () => {
-        expect(repository.findById('fake id')).rejects
+        await expect(repository.findById('fake id')).rejects
             .toThrow(new NotFoundError(`Entity not found using . fake id`))
 
-        expect(repository.findById('b55637a9-499d-4c4e-9f8e-32640d9321f3')).rejects
+        await expect(repository.findById('b55637a9-499d-4c4e-9f8e-32640d9321f3')).rejects
             .toThrow(new NotFoundError(`Entity not found using . b55637a9-499d-4c4e-9f8e-32640d9321f3`))
     });
 

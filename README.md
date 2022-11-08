@@ -84,3 +84,10 @@ This a project by fullcycle to build a backend using typescript and following th
 # Using nestjs
 
 - Inside project nest run the command ```nest g resource``` to create resource folder that you want work.  
+
+# Sequelize 
+
+- The sequelize must be installed in the core of our application;
+- Run the command ```npm install sequelize sequelize-typescript -w codeflix-back``` to install sequelize and the support
+for sequelize with typescript;
+- Run the command ```npm install sqlite3 -w codeflix-back``` to instal squlite(Usefull for dev enviroment);
