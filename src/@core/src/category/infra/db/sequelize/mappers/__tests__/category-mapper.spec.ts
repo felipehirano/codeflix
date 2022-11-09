@@ -1,27 +1,12 @@
 import { Category } from "#category/domain";
-import { LoadEntityError } from "#seedwork/domain";
-import { Sequelize } from "sequelize-typescript";
+import { LoadEntityError, UniqueEntityId } from "#seedwork/domain";
+import { setuSequelize } from "#seedwork/infra/testing/helpers/db";
 import { CategoryModel } from "../../model/category-model";
 import { CategoryModelMapper } from "../category-mapper";
 
 describe('CategoryModelMapper Unit Tests', () => {
 
-    let sequelize: Sequelize;
-
-    beforeAll(() => sequelize = new Sequelize({
-        dialect: 'sqlite',
-        host: ':memory:',
-        logging: false,
-        models: [CategoryModel]
-    }));
-
-    beforeEach(async () => {
-        await sequelize.sync({force: true});
-    });
-
-    afterAll(async() => {
-        await sequelize.close()
-    });
+    setuSequelize({models: [CategoryModel]});
 
     it('should throws error when category is invalid', () => {
         const model = CategoryModel.build({id: 'b55637a9-499d-4c4e-9f8e-32640d9321f3'});
@@ -50,5 +35,30 @@ describe('CategoryModelMapper Unit Tests', () => {
         });
         expect(() => CategoryModelMapper.toEntity(model)).toThrow(error);
         expect(spyValidate).toHaveBeenCalled();
+        spyValidate.mockRestore();
     });
+
+    it('should convert a category model to a category entity', () => {
+        const created_at = new Date();
+        const model = CategoryModel.build({
+            id: 'b55637a9-499d-4c4e-9f8e-32640d9321f3',
+            name: 'some value',
+            description: 'some description',
+            is_active: true,
+            created_at
+        });
+        const entity = CategoryModelMapper.toEntity(model);
+        expect(entity.toJSON()).toStrictEqual(
+            new Category(
+                {
+                    name: 'some value',
+                    description: 'some description',
+                    is_active: true,
+                    created_at
+                },
+                new UniqueEntityId("b55637a9-499d-4c4e-9f8e-32640d9321f3")
+            ).toJSON()
+        );
+    });
+    
 });

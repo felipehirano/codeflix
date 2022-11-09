@@ -1,4 +1,6 @@
+import { SequelizeModelFactory } from "../../../../../@seedwork/infra/sequelize/sequelize-model-factory";
 import { Column, DataType, PrimaryKey, Table, Model } from "sequelize-typescript";
+import Chance from 'chance';
 
 /**
  * O model e o category(entidade) possuem os mesmos campos. Porém, é necessário criar essa classe porque a entidade
@@ -35,4 +37,18 @@ export class CategoryModel extends Model<CategoryModelProperties> {
 
     @Column({allowNull: false, type: DataType.DATE})
     created_at: Date;
+
+    // Gerar uma massa de categoria falsa para testes em massa
+    static factory(){
+
+        // Importacao será feita aqui, para não utilizar essa lib em producao.
+        const chance: Chance.Chance = require('chance')();
+        return new SequelizeModelFactory(CategoryModel, () => ({
+            id: chance.guid({version: 4}),
+            name: chance.word(),
+            description: chance.paragraph(),
+            is_active: true,
+            created_at: chance.date(),
+        }))
+    }
 }
